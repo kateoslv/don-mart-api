@@ -38,6 +38,36 @@ public class ProductController extends HttpServlet {
 			
 		}
 		catch(Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			
+			DAOProduct productDAO = new DAOProduct();
+			
+			String name = request.getParameter("name");
+			String price = request.getParameter("price");
+			Double convertedPrice = Double.parseDouble(price);
+			
+			Product product = new Product();
+			product.setName(name);
+			product.setPrice(convertedPrice);
+			
+			boolean wasInserted = productDAO.insertProduct(product);
+			
+			if(wasInserted == true) {
+				response.setStatus(200);
+			}
+			else {
+				response.setStatus(400);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
 			response.setStatus(500);
 		}
 	}
