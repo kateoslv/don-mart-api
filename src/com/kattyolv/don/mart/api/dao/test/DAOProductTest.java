@@ -12,6 +12,7 @@ public class DAOProductTest {
 		DAOProductTest.selectTest();
 		DAOProductTest.insertTest();
 		DAOProductTest.updateTest();
+		DAOProductTest.deleteTest();
 
 	}
 	
@@ -69,6 +70,22 @@ public class DAOProductTest {
 			System.out.println("Fail to update product.");
 		}
 		
+	}
+	
+	public static void deleteTest() {
+		
+		System.out.println("DELETE PRODUCT TEST");
+		
+		DAOProduct productDAO = new DAOProduct();
+		
+		boolean wasDeleted = productDAO.deleteProduct(6);
+		
+		if(wasDeleted == true) {
+			System.out.println("Product deleted successfully.");
+		}
+		else {
+			System.out.println("Fail to delete product.");
+		}
 	}
 
 }

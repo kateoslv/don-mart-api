@@ -14,6 +14,7 @@ public class DAOProduct {
 	private static final String SELECT = "SELECT * FROM products";
 	private static final String INSERT = "INSERT INTO products (name, price) VALUES (?,?)";
 	private static final String UPDATE = "UPDATE products SET name=?, price=? WHERE id=?";
+	private static final String DELETE = "DELETE FROM products WHERE id=?";
 
 	private Connection connection;
 	
@@ -98,6 +99,29 @@ public class DAOProduct {
 		}
 		
 		return wasUpdated;
+		
+	}
+	
+	public boolean deleteProduct(int id) {
+		
+		boolean wasDeleted = false;
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(DELETE);
+			
+			statement.setInt(1, id);
+			
+			int rowsAffected = statement.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				wasDeleted = true;
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return wasDeleted;
 		
 	}
 	
