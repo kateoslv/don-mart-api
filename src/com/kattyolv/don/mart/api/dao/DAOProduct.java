@@ -36,6 +36,7 @@ public class DAOProduct {
 				
 				Product product = new Product();
 				
+				product.setId(resultSet.getInt("id"));
 				product.setName(resultSet.getString("name"));
 				product.setPrice(resultSet.getDouble("price"));
 				
