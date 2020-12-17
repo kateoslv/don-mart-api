@@ -1,6 +1,8 @@
 package com.kattyolv.don.mart.api.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.kattyolv.don.mart.api.dao.DAOProduct;
 import com.kattyolv.don.mart.api.model.Product;
+
 
 
 @WebServlet("/product")
@@ -60,6 +63,58 @@ public class ProductController extends HttpServlet {
 			boolean wasInserted = productDAO.insertProduct(product);
 			
 			if(wasInserted == true) {
+				response.setStatus(200);
+			}
+			else {
+				response.setStatus(400);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
+	}
+
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			
+			DAOProduct productDAO = new DAOProduct();
+			
+			Product product = new Product();
+			
+			InputStreamReader inputStreamReader = new InputStreamReader(request.getInputStream());
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			
+			String bodyRequest = bufferedReader.readLine();
+			
+			String[] bodyRequestSplitted = bodyRequest.split("&");
+			
+			for (String infoBodyRequest : bodyRequestSplitted) {
+				
+				String[] infoBodyRequestSplitted = infoBodyRequest.split("=");
+				
+				String key = infoBodyRequestSplitted[0];
+				String value = infoBodyRequestSplitted[1];
+				
+				if(key.equalsIgnoreCase("id")) {
+					int convertedId	= Integer.parseInt(value);
+					product.setId(convertedId);
+				}
+				if(key.equalsIgnoreCase("name")) {
+					product.setName(value);
+				}
+				if(key.equalsIgnoreCase("price")) {
+					Double convertedValue = Double.parseDouble(value); 
+					product.setPrice(convertedValue);
+				}
+			}
+			
+			boolean wasUpdated = productDAO.updateProduct(product);
+			
+			System.out.println(wasUpdated);
+			
+			if(wasUpdated == true) {
 				response.setStatus(200);
 			}
 			else {
