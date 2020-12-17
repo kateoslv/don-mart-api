@@ -10,6 +10,7 @@ public class DAOProductTest {
 	public static void main(String[] args) {
 		
 		DAOProductTest.selectTest();
+		DAOProductTest.insertTest();
 
 	}
 	
@@ -22,6 +23,27 @@ public class DAOProductTest {
 		
 		for(Product product : products) {
 			System.out.println("product name: " + product.getName());
+		}
+		
+	}
+	
+	public static void insertTest() {
+		
+		System.out.println("INSERT PRODUCT TEST");
+		
+		DAOProduct productDAO = new DAOProduct();
+		Product product = new Product();
+		
+		product.setName("bread");
+		product.setPrice(0.90);
+		
+		boolean wasInserted = productDAO.insertProduct(product);
+		
+		if(wasInserted == true) {
+			System.out.println("Product inserted successfully.");
+		}
+		else {
+			System.out.println("Fail to insert product.");
 		}
 		
 	}

@@ -12,6 +12,7 @@ import com.kattyolv.don.mart.api.model.Product;
 public class DAOProduct {
 
 	private static final String SELECT = "SELECT * FROM products";
+	private static final String INSERT = "INSERT INTO products (name, price) VALUES (?,?)";
 
 	private Connection connection;
 	
@@ -49,4 +50,29 @@ public class DAOProduct {
 		
 		return null;
 	}
+	
+	public boolean insertProduct(Product product) {
+		
+		boolean wasInserted = false;
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(INSERT);
+			
+			statement.setString(1, product.getName());
+			statement.setDouble(2, product.getPrice());
+			
+			int rowsAffected = statement.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				wasInserted = true;
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return wasInserted;
+
+	}
+	
 }
