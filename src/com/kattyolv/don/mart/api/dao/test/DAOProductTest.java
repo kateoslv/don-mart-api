@@ -11,6 +11,7 @@ public class DAOProductTest {
 		
 		DAOProductTest.selectTest();
 		DAOProductTest.insertTest();
+		DAOProductTest.updateTest();
 
 	}
 	
@@ -44,6 +45,28 @@ public class DAOProductTest {
 		}
 		else {
 			System.out.println("Fail to insert product.");
+		}
+		
+	}
+	
+	public static void updateTest() {
+		
+		System.out.println("UPDATE PRODUCT TEST");
+		
+		DAOProduct productDAO = new DAOProduct();
+		Product product = new Product();
+		
+		product.setName("bread");
+		product.setPrice(0.85);
+		product.setId(3);
+		
+		boolean wasUpdated = productDAO.updateProduct(product);
+		
+		if(wasUpdated == true) {
+			System.out.println("Product updated successfully.");
+		}
+		else {
+			System.out.println("Fail to update product.");
 		}
 		
 	}

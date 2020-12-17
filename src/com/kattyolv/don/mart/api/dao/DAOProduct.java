@@ -13,6 +13,7 @@ public class DAOProduct {
 
 	private static final String SELECT = "SELECT * FROM products";
 	private static final String INSERT = "INSERT INTO products (name, price) VALUES (?,?)";
+	private static final String UPDATE = "UPDATE products SET name=?, price=? WHERE id=?";
 
 	private Connection connection;
 	
@@ -73,6 +74,31 @@ public class DAOProduct {
 		
 		return wasInserted;
 
+	}
+	
+	public boolean updateProduct(Product product) {
+		
+		boolean wasUpdated = false;
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(UPDATE);
+			
+			statement.setString(1, product.getName());
+			statement.setDouble(2, product.getPrice());
+			statement.setInt(3, product.getId());
+			
+			int rowsAffected = statement.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				wasUpdated = true;
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return wasUpdated;
+		
 	}
 	
 }
