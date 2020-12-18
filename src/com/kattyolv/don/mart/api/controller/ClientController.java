@@ -43,4 +43,36 @@ public class ClientController extends HttpServlet {
 		}
 	}
 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			
+			DAOClient clientDAO = new DAOClient();
+			
+			String name = request.getParameter("name");
+			String address = request.getParameter("address");
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			
+			Client client = new Client();
+			client.setName(name);
+			client.setAddress(address);
+			client.setEmail(email);
+			client.setPassword(password);
+			
+			boolean wasInserted = clientDAO.insertClient(client);
+			
+			if(wasInserted == true) {
+				response.setStatus(200);
+			}
+			else {
+				response.setStatus(400);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
+	}
+
 }
