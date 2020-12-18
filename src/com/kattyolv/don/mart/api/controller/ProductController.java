@@ -17,7 +17,6 @@ import com.kattyolv.don.mart.api.dao.DAOProduct;
 import com.kattyolv.don.mart.api.model.Product;
 
 
-
 @WebServlet("/product")
 public class ProductController extends HttpServlet {
 	
@@ -115,6 +114,47 @@ public class ProductController extends HttpServlet {
 			System.out.println(wasUpdated);
 			
 			if(wasUpdated == true) {
+				response.setStatus(200);
+			}
+			else {
+				response.setStatus(400);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
+	}
+
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			
+			DAOProduct productDAO = new DAOProduct();
+			
+			InputStreamReader inputStreamReader = new InputStreamReader(request.getInputStream());
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			
+			String bodyRequest = bufferedReader.readLine();
+			
+			final String ID_REQUEST_KEY = "id=";
+			
+			if(bodyRequest == null || 
+					bodyRequest.equalsIgnoreCase(ID_REQUEST_KEY) ||
+					!bodyRequest.contains(ID_REQUEST_KEY)) {
+				
+				response.getWriter().print("id is required.");
+				response.setStatus(400);
+				return;
+			}
+			
+			String idValue = bodyRequest.replace(ID_REQUEST_KEY, "");
+			
+			int convertedId = Integer.parseInt(idValue);
+			
+			boolean hasDeleted = productDAO.deleteProduct(convertedId);
+			
+			if(hasDeleted == true) {
 				response.setStatus(200);
 			}
 			else {
