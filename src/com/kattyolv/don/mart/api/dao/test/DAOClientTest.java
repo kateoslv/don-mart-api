@@ -11,7 +11,8 @@ public class DAOClientTest {
 		
 		DAOClientTest.selectTest();
 		DAOClientTest.selectByEmailAndPassword();
-
+		DAOClientTest.insertClient();
+		
 	}
 	
 	public static void selectTest() {
@@ -46,6 +47,31 @@ public class DAOClientTest {
 		else {
 			System.out.println("Client does not exist.");
 		}
+		
+	}
+	
+	public static void insertClient() {
+		
+		System.out.println("INSERT CLIENT TEST");
+		
+		DAOClient clientDAO = new DAOClient();
+		
+		Client client = new Client();
+		
+		client.setAddress("monica");
+		client.setAddress("NY");
+		client.setEmail("monica@gmail.com");
+		client.setPassword("344");
+		
+		boolean wasInserted = clientDAO.insertClient(client);
+		
+		if(wasInserted == true) {
+			System.out.println("Client inserted successfully.");
+		}
+		else {
+			System.out.println("Fail to insert.");
+		}
+		
 	}
 	
 }

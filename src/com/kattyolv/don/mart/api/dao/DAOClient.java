@@ -13,6 +13,7 @@ public class DAOClient {
 
 	private static final String SELECT = "SELECT * FROM client";
 	private static final String SELECT_BY_EMAIL_AND_PASSWORD = "SELECT * FROM client WHERE email=? AND password=?";
+	private static final String INSERT = "INSERT INTO client (name, address, email, password) VALUES (?,?,?,?)";
 	
 	private Connection connection;
 	
@@ -49,6 +50,7 @@ public class DAOClient {
 		}
 		
 		return null;
+		
 	}
 	
 	public Client selectClientByEmailAndPassword(String email, String password) {
@@ -78,6 +80,33 @@ public class DAOClient {
 		}
 		
 		return null;
+		
+	}
+	
+	public boolean insertClient(Client client) {
+		
+		boolean wasInserted = false;
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(INSERT);
+			
+			statement.setString(1, client.getName());
+			statement.setString(2, client.getAddress());
+			statement.setString(3, client.getEmail());
+			statement.setString(4, client.getPassword());
+			
+			int rowsAffected = statement.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				wasInserted = true;
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return wasInserted;
+		
 	}
 	
 }
