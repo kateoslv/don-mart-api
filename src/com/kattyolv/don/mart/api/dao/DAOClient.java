@@ -15,6 +15,7 @@ public class DAOClient {
 	private static final String SELECT_BY_EMAIL_AND_PASSWORD = "SELECT * FROM client WHERE email=? AND password=?";
 	private static final String INSERT = "INSERT INTO client (name, address, email, password) VALUES (?,?,?,?)";
 	private static final String UPDATE = "UPDATE client SET name=?, address=?, password=? WHERE email=?";
+	private static final String DELETE = "DELETE FROM client WHERE id=?";
 	
 	private Connection connection;
 	
@@ -133,6 +134,29 @@ public class DAOClient {
 		}
 		
 		return wasUpdated;
+		
+	}
+	
+	public boolean deleteClient(int id) {
+		
+		boolean wasDeleted = false;
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(DELETE);
+			
+			statement.setInt(1, id);
+			
+			int rowsAffected = statement.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				wasDeleted = true;
+			}			
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return wasDeleted;
 		
 	}
 	

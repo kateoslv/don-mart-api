@@ -9,14 +9,15 @@ public class DAOClientTest {
 
 	public static void main(String[] args) {
 		
-		DAOClientTest.selectTest();
+		DAOClientTest.selectClient();
 		DAOClientTest.selectByEmailAndPassword();
 		DAOClientTest.insertClient();
 		DAOClientTest.updateClient();
+		DAOClientTest.deleteClient();
 		
 	}
 	
-	public static void selectTest() {
+	public static void selectClient() {
 		
 		System.out.println("SELECT CLIENT TEST");
 		
@@ -59,10 +60,10 @@ public class DAOClientTest {
 		
 		Client client = new Client();
 		
-		client.setName("monica");
+		client.setName("janice");
 		client.setAddress("NY");
-		client.setEmail("monica@gmail.com");
-		client.setPassword("344");
+		client.setEmail("janice@gmail.com");
+		client.setPassword("222");
 		
 		boolean wasInserted = clientDAO.insertClient(client);
 		
@@ -90,10 +91,27 @@ public class DAOClientTest {
 		boolean wasUpdated = clientDAO.updateClient(client);
 		
 		if(wasUpdated) {
-			System.out.println("Update successfully.");
+			System.out.println("Updated successfully.");
 		}
 		else {
 			System.out.println("Fail to update.");
+		}
+		
+	}
+	
+	public static void deleteClient() {
+		
+		System.out.println("DELETE CLIENT TEST");
+		
+		DAOClient clientDAO = new DAOClient();
+		
+		boolean wasDeleted = clientDAO.deleteClient(5);
+		
+		if(wasDeleted == true) {
+			System.out.println("Deleted successfully.");
+		}
+		else {
+			System.out.println("Fail to delete.");
 		}
 		
 	}
