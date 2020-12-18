@@ -11,13 +11,15 @@ public class ClientTest {
 		Client client = new Client();
 		client.setId(1);
 		client.setName("sherlock");
+		client.setAddress("london");
 		client.setEmail("sherlock@gmail.com");
 		client.setPassword("988");
 		
 		if(client.getId() == 1 && 
 				client.getName() == "sherlock" &&
+				client.getAddress() == "london" &&
 				client.getEmail() == "sherlock@gmail.com" &&
-				client.getPassword() == "98") {
+				client.getPassword() == "988") {
 			
 			System.out.println("All nice.");
 		}

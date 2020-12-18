@@ -4,6 +4,7 @@ public class Client {
 	
 	private int id;
 	private String name;
+	private String address;
 	private String email;
 	private String password;
 	
@@ -21,6 +22,14 @@ public class Client {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getAddress() {
+		return this.address;
+	}
+	
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 	public String getEmail() {
