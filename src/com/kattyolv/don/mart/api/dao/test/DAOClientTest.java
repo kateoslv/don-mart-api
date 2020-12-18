@@ -12,6 +12,7 @@ public class DAOClientTest {
 		DAOClientTest.selectTest();
 		DAOClientTest.selectByEmailAndPassword();
 		DAOClientTest.insertClient();
+		DAOClientTest.updateClient();
 		
 	}
 	
@@ -58,7 +59,7 @@ public class DAOClientTest {
 		
 		Client client = new Client();
 		
-		client.setAddress("monica");
+		client.setName("monica");
 		client.setAddress("NY");
 		client.setEmail("monica@gmail.com");
 		client.setPassword("344");
@@ -70,6 +71,29 @@ public class DAOClientTest {
 		}
 		else {
 			System.out.println("Fail to insert.");
+		}
+		
+	}
+	
+	public static void updateClient() {
+		
+		System.out.println("UPDATE CLIENT TEST");
+		
+		DAOClient clientDAO = new DAOClient();
+		Client client = new Client();
+		
+		client.setName("phoebe");
+		client.setAddress("NY");
+		client.setPassword("678");
+		client.setEmail("phoebe@gmail.com");
+		
+		boolean wasUpdated = clientDAO.updateClient(client);
+		
+		if(wasUpdated) {
+			System.out.println("Update successfully.");
+		}
+		else {
+			System.out.println("Fail to update.");
 		}
 		
 	}
