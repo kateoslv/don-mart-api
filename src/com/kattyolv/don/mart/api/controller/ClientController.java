@@ -1,7 +1,10 @@
 package com.kattyolv.don.mart.api.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -63,6 +66,67 @@ public class ClientController extends HttpServlet {
 			boolean wasInserted = clientDAO.insertClient(client);
 			
 			if(wasInserted == true) {
+				response.setStatus(200);
+			}
+			else {
+				response.setStatus(400);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
+	}
+
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			
+			DAOClient clientDAO = new DAOClient();
+			
+			Client client = new Client();
+			
+			InputStreamReader inputStreamReader = new InputStreamReader(request.getInputStream());
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			
+			String bodyRequest = bufferedReader.readLine();
+			
+			String[] bodyRequestSplitted = bodyRequest.split("&");
+			
+			for(String bodyRequestValue : bodyRequestSplitted) {
+				
+				String[] requestParameterKeyAndValue = bodyRequestValue.split("=");
+				
+				if(requestParameterKeyAndValue.length == 1) {
+					response.setStatus(400);
+					return;
+				}
+				
+				String key = requestParameterKeyAndValue[0];
+				String value = requestParameterKeyAndValue[1];	
+				
+				switch(key) {
+					case "name":
+						client.setName(value);
+						break;
+					case "address":
+						client.setAddress(value);
+						break;
+					case "email":
+						client.setEmail(URLDecoder.decode(value, "UTF-8"));
+						break;
+					case "password":
+						client.setPassword(value);
+						break;
+					default:
+						response.getWriter().print("invaluable key.");
+						break;
+				}
+			}
+			
+			boolean wasUpdated = clientDAO.updateClient(client);
+			
+			if(wasUpdated == true) {
 				response.setStatus(200);
 			}
 			else {
