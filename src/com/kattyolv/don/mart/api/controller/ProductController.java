@@ -93,6 +93,11 @@ public class ProductController extends HttpServlet {
 				
 				String[] infoBodyRequestSplitted = infoBodyRequest.split("=");
 				
+				if(infoBodyRequestSplitted.length == 1) {
+					response.setStatus(400);
+					return;
+				}
+				
 				String key = infoBodyRequestSplitted[0];
 				String value = infoBodyRequestSplitted[1];
 				
