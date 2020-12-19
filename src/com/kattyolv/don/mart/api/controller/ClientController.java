@@ -93,17 +93,17 @@ public class ClientController extends HttpServlet {
 			
 			String[] bodyRequestSplitted = bodyRequest.split("&");
 			
-			for(String bodyRequestValue : bodyRequestSplitted) {
+			for(String infoBodyRequest : bodyRequestSplitted) {
 				
-				String[] requestParameterKeyAndValue = bodyRequestValue.split("=");
+				String[] infoBodyRequestSplitted = infoBodyRequest.split("=");
 				
-				if(requestParameterKeyAndValue.length == 1) {
+				if(infoBodyRequestSplitted.length == 1) {
 					response.setStatus(400);
 					return;
 				}
 				
-				String key = requestParameterKeyAndValue[0];
-				String value = requestParameterKeyAndValue[1];	
+				String key = infoBodyRequestSplitted[0];
+				String value = infoBodyRequestSplitted[1];	
 				
 				switch(key) {
 					case "name":
