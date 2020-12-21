@@ -139,4 +139,50 @@ public class ClientController extends HttpServlet {
 		}
 	}
 
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			
+			DAOClient clientDAO = new DAOClient();
+				
+			InputStreamReader inputStreamReader = new InputStreamReader(request.getInputStream());
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			
+			String bodyRequest = bufferedReader.readLine();
+			
+			if(bodyRequest != null) {
+				
+				String[] bodyRequestSplitted = bodyRequest.split("=");
+				
+				String keyRequestId = bodyRequestSplitted[0];
+				
+				if(bodyRequestSplitted.length == 1 ||
+						!keyRequestId.equalsIgnoreCase("id")) {
+					
+					response.getWriter().print("id is required.");
+					response.setStatus(400);
+					return;
+				}
+				
+				String idValue = bodyRequestSplitted[1];
+				
+				int convertedId = Integer.parseInt(idValue);
+				
+				boolean hasDeleted = clientDAO.deleteClient(convertedId);
+				
+				if(hasDeleted == true) {
+					response.setStatus(200);
+					return;
+				}
+			}
+			
+			response.setStatus(400);
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
+	}
+
 }
