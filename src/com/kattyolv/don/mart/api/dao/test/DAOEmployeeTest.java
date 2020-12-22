@@ -9,7 +9,8 @@ public class DAOEmployeeTest {
 
 	public static void main(String[] args) {
 		
-		DAOEmployeeTest.selectTest();
+		//DAOEmployeeTest.selectTest();
+		DAOEmployeeTest.insertTest();
 
 	}
 
@@ -24,6 +25,29 @@ public class DAOEmployeeTest {
 			System.out.println(employee.getName());
 		}
 		
+	}
+	
+	public static void insertTest() {
+		
+		System.out.println("INSERT EMPLOYEE TEST");
+		
+		DAOEmployee employeeDAO = new DAOEmployee();
+
+		Employee employee = new Employee();
+		
+		employee.setName("anne");
+		employee.setAddress("green gable");
+		employee.setEmail("anne@gmail.com");
+		employee.setPassword("333");
+		
+		boolean wasInserted = employeeDAO.insertEmployee(employee);
+		
+		if(wasInserted == true) {
+			System.out.println("Employee was inserted successfully.");
+		}
+		else {
+			System.out.println("Fail to insert.");
+		}
 	}
 	
 }

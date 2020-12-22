@@ -12,6 +12,7 @@ import com.kattyolv.don.mart.api.model.Employee;
 public class DAOEmployee {
 
 	private static final String SELECT = "SELECT * FROM employee";
+	private static final String INSERT = "INSERT INTO employee (name, address, email, password) VALUES (?,?,?,?)";
 	
 	public Connection connection;
 	
@@ -48,5 +49,33 @@ public class DAOEmployee {
 		}
 		
 		return null;
+		
 	}
+	
+	public boolean insertEmployee(Employee employee) {
+		
+		boolean wasInserted = false;
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(INSERT);
+			
+			statement.setString(1, employee.getName());
+			statement.setString(2, employee.getAddress());
+			statement.setString(3, employee.getEmail());
+			statement.setString(4, employee.getPassword());
+			
+			int rowsAffected = statement.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				wasInserted = true;
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return wasInserted;
+		
+	}
+	
 }
