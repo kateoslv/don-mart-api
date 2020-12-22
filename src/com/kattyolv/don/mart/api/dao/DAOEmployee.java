@@ -14,6 +14,7 @@ public class DAOEmployee {
 	private static final String SELECT = "SELECT * FROM employee";
 	private static final String INSERT = "INSERT INTO employee (name, address, email, password) VALUES (?,?,?,?)";
 	private static final String UPDATE = "UPDATE employee SET name=?, address=?, password=? WHERE email=?";
+	private static final String DELETE = "DELETE FROM employee WHERE id=?";
 	
 	public Connection connection;
 	
@@ -38,7 +39,6 @@ public class DAOEmployee {
 				employee.setId(resultSet.getInt("id"));
 				employee.setName(resultSet.getString("name"));
 				employee.setEmail(resultSet.getString("email"));
-				employee.setPassword(resultSet.getString("password"));
 				
 				employees.add(employee);
 			}
@@ -102,6 +102,29 @@ public class DAOEmployee {
 		}
 		
 		return wasUpdated;
+		
+	}
+	
+	public boolean deleteEmployee(int id) {
+		
+		boolean hasDeleted = false;
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(DELETE);
+			
+			statement.setInt(1, id);
+			
+			int rowsAffected = statement.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				hasDeleted = true;
+			}			
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return hasDeleted;
 		
 	}
 	

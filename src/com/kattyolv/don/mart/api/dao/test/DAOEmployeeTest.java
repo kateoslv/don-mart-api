@@ -12,6 +12,7 @@ public class DAOEmployeeTest {
 		DAOEmployeeTest.selectTest();
 		DAOEmployeeTest.insertTest();
 		DAOEmployeeTest.updateTest();
+		DAOEmployeeTest.deleteTest();
 
 	}
 
@@ -36,7 +37,7 @@ public class DAOEmployeeTest {
 
 		Employee employee = new Employee();
 		
-		employee.setName("anne");
+		employee.setName("carol");
 		employee.setAddress("green gable");
 		employee.setEmail("anne@gmail.com");
 		employee.setPassword("333");
@@ -59,8 +60,8 @@ public class DAOEmployeeTest {
 		
 		Employee employee = new Employee();
 		
-		employee.setName("carol");
-		employee.setAddress("espanha");
+		employee.setName("anne");
+		employee.setAddress("green gables");
 		employee.setEmail("anne@gmail.com");
 		employee.setPassword("900");
 		
@@ -71,6 +72,22 @@ public class DAOEmployeeTest {
 		}
 		else {
 			System.out.println("Fail to update.");
+		}
+	}
+	
+	public static void deleteTest() {
+
+		System.out.println("DELETE EMPLOYEE TEST");
+		
+		DAOEmployee employeeDAO = new DAOEmployee();
+		
+		boolean hasDeleted = employeeDAO.deleteEmployee(5);
+		
+		if(hasDeleted == true) {
+			System.out.println("Employee deleted successfully.");
+		}
+		else {
+			System.out.println("Fail to delete.");	
 		}
 	}
 	
