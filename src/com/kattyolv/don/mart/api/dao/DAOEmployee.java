@@ -13,6 +13,7 @@ public class DAOEmployee {
 
 	private static final String SELECT = "SELECT * FROM employee";
 	private static final String INSERT = "INSERT INTO employee (name, address, email, password) VALUES (?,?,?,?)";
+	private static final String UPDATE = "UPDATE employee SET name=?, address=?, password=? WHERE email=?";
 	
 	public Connection connection;
 	
@@ -75,6 +76,32 @@ public class DAOEmployee {
 		}
 		
 		return wasInserted;
+		
+	}
+	
+	public boolean updateEmployee(Employee employee) {
+		
+		boolean wasUpdated = false;
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(UPDATE);
+			
+			statement.setString(1, employee.getName());
+			statement.setString(2, employee.getAddress());
+			statement.setString(3, employee.getPassword());
+			statement.setString(4, employee.getEmail());
+			
+			int rowsAffected = statement.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				wasUpdated = true;
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return wasUpdated;
 		
 	}
 	
