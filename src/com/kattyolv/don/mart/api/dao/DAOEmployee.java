@@ -12,6 +12,7 @@ import com.kattyolv.don.mart.api.model.Employee;
 public class DAOEmployee {
 
 	private static final String SELECT = "SELECT * FROM employee";
+	private static final String SELECT_BY_EMAIL_AND_PASSWORD = "SELECT * FROM employee WHERE email=? AND password=?";
 	private static final String INSERT = "INSERT INTO employee (name, address, email, password) VALUES (?,?,?,?)";
 	private static final String UPDATE = "UPDATE employee SET name=?, address=?, password=? WHERE email=?";
 	private static final String DELETE = "DELETE FROM employee WHERE id=?";
@@ -44,6 +45,36 @@ public class DAOEmployee {
 			}
 			
 			return employees;
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+	
+	public Employee selectEmployeeByEmailAndPassword(String email, String password) {
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(SELECT_BY_EMAIL_AND_PASSWORD);
+			
+			statement.setString(1, email);
+			statement.setString(2, password);
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			if(resultSet.next()) {
+				
+				Employee employee = new Employee();
+				
+				employee.setId(resultSet.getInt("id"));
+				employee.setName(resultSet.getString("name"));
+				employee.setAddress(resultSet.getString("address"));
+				employee.setEmail(resultSet.getString("email"));
+				
+				return employee;
+			}
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();

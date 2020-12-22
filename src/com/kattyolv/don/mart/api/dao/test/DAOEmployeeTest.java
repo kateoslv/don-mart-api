@@ -13,6 +13,7 @@ public class DAOEmployeeTest {
 		DAOEmployeeTest.insertTest();
 		DAOEmployeeTest.updateTest();
 		DAOEmployeeTest.deleteTest();
+		DAOEmployeeTest.selectEmployeeByEmailAndPassword();
 
 	}
 
@@ -29,6 +30,25 @@ public class DAOEmployeeTest {
 		
 	}
 	
+	public static void selectEmployeeByEmailAndPassword() {
+		
+		System.out.println("SELECT BY EMAIL AND PASSWORD EMPLOYEE TEST");
+		
+		DAOEmployee employeeDAO = new DAOEmployee();
+		
+		Employee employee = employeeDAO.selectEmployeeByEmailAndPassword("anne@gmail.com", "900");	
+		
+		if(employee != null) {
+			System.out.println(employee.getId());
+			System.out.println(employee.getName());
+			System.out.println(employee.getAddress());
+			System.out.println(employee.getEmail());
+		}
+		else {
+			System.out.println("Employee does not exist.");
+		}
+	}
+
 	public static void insertTest() {
 		
 		System.out.println("INSERT EMPLOYEE TEST");
