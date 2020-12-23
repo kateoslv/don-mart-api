@@ -150,4 +150,46 @@ public class EmployeeController extends HttpServlet {
 		}
 	}
 
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		try {
+			
+			DAOEmployee employeeDAO = new DAOEmployee();
+			
+			InputStreamReader inputStreamReader = new InputStreamReader(request.getInputStream());
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			
+			String bodyRequest = bufferedReader.readLine();
+			
+			if(bodyRequest != null) {
+				
+				String[] bodyRequestSplitted = bodyRequest.split("=");
+				
+				String key = bodyRequestSplitted[0];
+				
+				if(bodyRequestSplitted.length > 1 &&
+						key.equals("id")) {
+					
+					String value = bodyRequestSplitted[1];
+						
+					int id = Integer.parseInt(value);
+				
+					boolean hasDeleted = employeeDAO.deleteEmployee(id);
+					
+					if(hasDeleted == true) {
+						response.setStatus(200);
+						return;
+					}
+				}
+			}			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
+		
+		response.setStatus(400);
+		
+	}
+	
 }
