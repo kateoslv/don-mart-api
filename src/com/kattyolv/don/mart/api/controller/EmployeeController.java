@@ -43,4 +43,43 @@ public class EmployeeController extends HttpServlet {
 		}
 	}
 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		try {
+			
+			DAOEmployee employeeDAO = new DAOEmployee();
+			
+			String name = request.getParameter("name");
+			String address = request.getParameter("address");
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+
+			if(name != "" &&
+					address != "" &&
+					email != "" &&
+					password != "") {
+				
+				Employee employee = new Employee();
+				
+				employee.setName(name);
+				employee.setAddress(address);
+				employee.setEmail(email);
+				employee.setPassword(password);
+				
+				boolean wasInserted = employeeDAO.insertEmployee(employee);
+				
+				if(wasInserted == true) {
+					response.setStatus(200);
+				}
+			}
+			else {
+				response.setStatus(400);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
+	}
+
 }
