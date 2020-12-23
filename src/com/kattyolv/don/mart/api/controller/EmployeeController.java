@@ -1,7 +1,10 @@
 package com.kattyolv.don.mart.api.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -72,6 +75,71 @@ public class EmployeeController extends HttpServlet {
 					response.setStatus(200);
 				}
 			}
+			else {
+				response.setStatus(400);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
+	}
+
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			
+			DAOEmployee employeeDAO = new DAOEmployee();
+			
+			Employee employee = new Employee();
+			
+			InputStreamReader inputStreamReader = new InputStreamReader(request.getInputStream());
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			
+			String bodyRequest = bufferedReader.readLine();
+			
+			String[] bodyRequestSplitted = bodyRequest.split("&");
+			
+			for(String infoBodyRequest : bodyRequestSplitted) {
+				
+				String[] infoBodyRequestSplitted = infoBodyRequest.split("=");
+				
+				try {
+					String key = infoBodyRequestSplitted[0];
+					String value = infoBodyRequestSplitted[1];
+					
+					String decodedValue = URLDecoder.decode(value, "UTF-8");
+						
+					switch(key) {
+						case "name":
+							employee.setName(decodedValue);
+							break;
+						case "address":
+							employee.setAddress(decodedValue);
+							break;
+						case "email":
+							employee.setEmail(decodedValue);
+							break;
+						case "password":
+							employee.setPassword(decodedValue);
+							break;
+						default:
+							response.getWriter().print("Invalid key.");
+							break;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e) {
+					e.printStackTrace();
+					response.setStatus(400);
+					return;
+				}
+			}
+			
+			boolean wasUpdated = employeeDAO.updateEmployee(employee);
+			
+			if(wasUpdated == true) {
+				response.setStatus(200);
+			} 
 			else {
 				response.setStatus(400);
 			}
