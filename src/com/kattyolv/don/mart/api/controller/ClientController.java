@@ -110,23 +110,25 @@ public class ClientController extends HttpServlet {
 				}
 				
 				String key = infoBodyRequestSplitted[0];
-				String value = infoBodyRequestSplitted[1];	
+				String value = infoBodyRequestSplitted[1];
+				
+				String decodedValue = URLDecoder.decode(value, "UTF-8");
 				
 				switch(key) {
 					case "name":
-						client.setName(value);
+						client.setName(decodedValue);
 						break;
 					case "address":
-						client.setAddress(value);
+						client.setAddress(decodedValue);
 						break;
 					case "email":
-						client.setEmail(URLDecoder.decode(value, "UTF-8"));
+						client.setEmail(decodedValue);
 						break;
 					case "password":
-						client.setPassword(value);
+						client.setPassword(decodedValue);
 						break;
 					default:
-						response.getWriter().print("invaluable key.");
+						response.getWriter().print("Invalid key.");
 						break;
 				}
 			}
