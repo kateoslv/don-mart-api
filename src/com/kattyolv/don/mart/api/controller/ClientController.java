@@ -57,16 +57,23 @@ public class ClientController extends HttpServlet {
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
 			
-			Client client = new Client();
-			client.setName(name);
-			client.setAddress(address);
-			client.setEmail(email);
-			client.setPassword(password);
-			
-			boolean wasInserted = clientDAO.insertClient(client);
-			
-			if(wasInserted == true) {
-				response.setStatus(200);
+			if(name != "" &&
+					address != "" &&
+					email != "" &&
+					password != "") {
+				
+				Client client = new Client();
+				
+				client.setName(name);
+				client.setAddress(address);
+				client.setEmail(email);
+				client.setPassword(password);
+				
+				boolean wasInserted = clientDAO.insertClient(client);
+				
+				if(wasInserted == true) {
+					response.setStatus(200);
+				}
 			}
 			else {
 				response.setStatus(400);
