@@ -22,41 +22,51 @@ public class ClientSignInController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			DAOClient clientDAO = new DAOClient();
-			
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
 
-			if(!email.replaceAll("\\s+", "").equals("") &&
-					!password.replaceAll("\\s+", "").equals("")) {
+			if(email != null &&
+					password != null) {
 				
-				Client client = clientDAO.selectClientByEmailAndPassword(email, password);
+				String emailReplaced = email.replaceAll("//s+", "");
+				String passwordReplaced = password.replaceAll("//s+", "");
 				
-				if(client != null) {
+				if(!emailReplaced.equals("") &&
+						!passwordReplaced.equals("")) {
 					
-					Gson gson = new Gson();
-					String clientJson = gson.toJson(client);
+					DAOClient clientDAO = new DAOClient();
 					
-					PrintWriter out = response.getWriter();
-					out.println(clientJson);
+					Client client = clientDAO.selectClientByEmailAndPassword(email, password);
 					
-					response.setStatus(200);
-					response.setContentType("application/json");
+					if(client != null) {
+						
+						Gson gson = new Gson();
+						String clientJson = gson.toJson(client);
+						
+						PrintWriter out = response.getWriter();
+						out.println(clientJson);
+						
+						response.setStatus(200);
+						response.setContentType("application/json");
+						
+						return;
+						
+					}
+					else {
+						response.setStatus(401);
+						return;
+					}
 				}
-				else {
-					response.setStatus(401);
-				}
-				
-				return;
 			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			response.setStatus(500);
+			
+			return;
 		}
 		
 		response.setStatus(400);
 		
 	}
-
 }
