@@ -1,11 +1,14 @@
 package com.kattyolv.don.mart.api.model;
 
+import java.util.ArrayList;
+
 public class Order {
 
 	private int id;
 	private int itensQuantity;
 	private double totalPrice;
 	private Client client;
+	private ArrayList<Product> products;
 	
 	public int getId() {
 		return this.id;
@@ -38,5 +41,13 @@ public class Order {
 	public void setClient(Client idClient) {
 		this.client = idClient;
 	}
-
+	
+	public ArrayList<Product> getProducts() {
+		return this.products;
+	}
+	
+	public void setProducts(ArrayList<Product> products) {
+		this.products = products;
+	}
+	
 }
